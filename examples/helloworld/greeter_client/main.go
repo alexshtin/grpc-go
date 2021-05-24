@@ -50,7 +50,27 @@ func main() {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: name})
+	r, err := c.SayHello(ctx, &pb.HelloRequest{
+		Name: name,
+		Payload: nil,
+		PayloadMap: map[string]*pb.Payload{
+			"test1": nil,
+			"test2": &pb.Payload{
+				Metadata: nil,
+				Data:     nil,
+			},
+			"test3": &pb.Payload{
+				Metadata: map[string][]byte{
+					"type": nil,
+				},
+				Data: nil,
+			},
+		},
+		Payloads: nil,
+		PayloadsMap: map[string]*pb.Payloads{
+			"test1": nil,
+		},
+	})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
